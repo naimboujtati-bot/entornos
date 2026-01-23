@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirmación de Citas - Clínica Denta</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      width: 360px;
+      height: 600px;
+      background-color: #fff;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .chat-header {
+      background-color: #075E54;
+      color: #fff;
+      padding: 15px;
+      font-size: 18px;
+    }
+
+    .chat-body {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 10px;
+      border-radius: 8px;
+      line-height: 1.4;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    .bot {
+      background-color: #dcf8c6;
+      align-self: flex-start;
+    }
+
+    .user {
+      background-color: #e1ffc7;
+      align-self: flex-end;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      font-size: 14px;
+    }
+
+    .chat-input button {
+      background-color: #075E54;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+  <div class="chat-header">
+    Clínica Dental Privilege🦷
+  </div>
+  <div class="chat-body" id="chat-body">
+    <div class="message bot">
+      📅 Hola, te recordamos que tienes una cita el <strong>25 de octubre a las 10:00 AM</strong> con la Dra. González.
+
+      Por favor responde:
+      - ✅ Confirmar
+      - 🔄 Reagendar
+    </div>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="user-input" placeholder="Escribe tu respuesta...">
+    <button onclick="sendMessage()">Enviar</button>
+  </div>
+</div>
+
+<script>
+  function sendMessage() {
+    const input = document.getElementById('user-input');
+    const chat = document.getElementById('chat-body');
+    const text = input.value.trim();
+
+    if (text === '') return;
+
+    const userMsg = document.createElement('div');
+    userMsg.className = 'message user';
+    userMsg.innerText = text;
+    chat.appendChild(userMsg);
+
+    const botMsg = document.createElement('div');
+    botMsg.className = 'message bot';
+
+
+    const lower = text.toLowerCase();
+
+    if (lower.includes('confirmar')) {
+      botMsg.innerText = '✅ Gracias, tu cita ha sido confirmada. ¡Te esperamos el 25 de octubre a las 10:00 AM!';
+    } else if (lower.includes('reagendar')) {
+      botMsg.innerText = '🔄 Claro, ¿qué día y hora prefieres para tu nueva cita?';
+    } else if (lower.includes('cancelar')) {
+      botMsg.innerText = '❌ Tu cita ha sido cancelada. Si deseas agendar otra, puedes escribirnos en cualquier momento.';
+    } else {
+      botMsg.innerText = '🤖 Por favor responde con: "Confirmar", "Reagendar" o "Cancelar".';
+    }
+
+    setTimeout(() => {
+      chat.appendChild(botMsg);
+      chat.scrollTop = chat.scrollHeight;
+    }, 600);
+
+    input.value = '';
+    chat.scrollTop = chat.scrollHeight;
+  }
+</script>
+
+</body>
+</html>
